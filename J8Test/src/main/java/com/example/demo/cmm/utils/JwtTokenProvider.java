@@ -1,4 +1,4 @@
-package com.example.demo.cmm;
+package com.example.demo.cmm.utils;
 
 import java.util.Date;
 import java.util.HashMap;
