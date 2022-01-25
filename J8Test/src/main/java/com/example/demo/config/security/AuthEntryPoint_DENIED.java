@@ -24,10 +24,15 @@ public class AuthEntryPoint_DENIED implements AuthenticationEntryPoint{
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.debug("[JwtAuthenticationEntryPoint]! err: {}, {}", authException.getMessage(), request.getRequestURI());
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		response.setContentType("application/json; charset=UTF-8");
-		out.print(new Gson().toJson(RVO.builder().msg("인증에 실패 하였습니다.").data(authException.getMessage()).code(ApiCd.NOT_AUTH).build()));
+		if(request.getRequestURI().startsWith("/api")) {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			PrintWriter out = response.getWriter();
+			response.setContentType("application/json; charset=UTF-8");
+			out.print(new Gson().toJson(RVO.builder().msg("인증에 실패 하였습니다.").data(authException.getMessage()).code(ApiCd.NOT_AUTH).build()));
+		} else {
+			response.sendRedirect("/public/login");
+		}
 	}
 }
