@@ -1,0 +1,48 @@
+server:
+  port: 9999
+  
+spring:
+  profiles:
+    group:
+      "local": "local"
+    active: local
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    view-names:
+    - thymeleaf/*
+logging:
+  level:
+    '[com.example.demo]': debug
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/**/*.xml
+
+---
+#local
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test1
+    username: edu
+    password: edu
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+logging:
+  level:
+    '[org.hibernate.SQL]': debug
+    '[org.hibernate.type.descriptor.sql]': trace
