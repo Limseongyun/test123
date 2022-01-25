@@ -7,5 +7,5 @@ import com.example.demo.mvc.model.entity.Member;
 
 @Repository
 public interface MemberRepo extends JpaRepository<Member, Long>{
-
+	Member findByMembId(String membId);
 }

@@ -7,5 +7,5 @@ import com.example.demo.mvc.model.entity.CmmnCodeDetail;
 
 @Repository
 public interface CmmnCodeDetailRepo extends JpaRepository<CmmnCodeDetail, Long>{
-
+	CmmnCodeDetail findByCodeIdAndCodeValue(String codeId, String codeValue);
 }
