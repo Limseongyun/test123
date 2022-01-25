@@ -19,6 +19,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{@Override
 		
 		if(request.getRequestURI().startsWith("/api")) {
 			log.debug("jwt 인증 진행");
+			request.getSession().invalidate();
 			jwtAuthStart(request);
 			request.setAttribute("isApi", true);
 		}else {
