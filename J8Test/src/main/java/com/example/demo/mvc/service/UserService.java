@@ -49,9 +49,7 @@ public class UserService {
 	
 	
 	
-	/*
-	 * ↑restcontroller, ↓controller
-	 */
+	
 	public List<Merchant> selectAllMerchant(){
 		QMerchant qmerchant = QMerchant.merchant;
 		return qf.selectFrom(qmerchant).fetch();

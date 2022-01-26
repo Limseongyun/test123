@@ -37,7 +37,7 @@ public class AuthService {
 	
 	public String gettoken(String id, String pw, String ip) {
 		QMember qmem = QMember.member;
-		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(id)).fetchOne();
+		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(id).and(qmem.useYn.eq("Y"))).fetchOne();
 		
 		if(mem == null) {
 			throw new RuntimeException("존재하지 않는 유저 입니다.");
@@ -59,7 +59,7 @@ public class AuthService {
 	public MemberMoney sellerJoin(JoinDto joinDto) {
 		QMember qmem = QMember.member;
 		
-		Member memChk = qf.selectFrom(qmem).where(qmem.membId.eq(joinDto.getMembId())).fetchOne();
+		Member memChk = qf.selectFrom(qmem).where(qmem.membId.eq(joinDto.getMembId()).and(qmem.useYn.eq("Y"))).fetchOne();
 		if(memChk != null) {
 			if(Cd.MEMBER_STTUS_OK.equals(memChk.getMembSttusCd().getCodeValue())) {
 				throw new RuntimeException("이미 존재하는 아이디 입니다.");
@@ -80,7 +80,7 @@ public class AuthService {
 	public MemberMoney userJoin(JoinDto joinDto) {
 		QMember qmem = QMember.member;
 		
-		Member memChk = qf.selectFrom(qmem).where(qmem.membId.eq(joinDto.getMembId())).fetchOne();
+		Member memChk = qf.selectFrom(qmem).where(qmem.membId.eq(joinDto.getMembId()).and(qmem.useYn.eq("Y"))).fetchOne();
 		if(memChk != null) {
 			if(Cd.MEMBER_STTUS_OK.equals(memChk.getMembSttusCd().getCodeValue())) {
 				throw new RuntimeException("이미 존재하는 아이디 입니다.");
@@ -106,7 +106,7 @@ public class AuthService {
 		}
 		
 		QMember qmem = QMember.member;
-		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(String.valueOf(((Member)auth.getPrincipal()).getMembId()))).fetchOne();
+		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(String.valueOf(((Member)auth.getPrincipal()).getMembId())).and(qmem.useYn.eq("Y"))).fetchOne();
 		if(mem == null) {
 			throw new RuntimeException("유저가 없습니다. 탈퇴하려면 로그인을 해주세요");
 		}
