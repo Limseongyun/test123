@@ -2,6 +2,7 @@ package com.example.demo.cmm.security;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -28,7 +29,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		
 		UserDetails ud = cds.loadUserByUsername(id);
 		if(! pe.matches(pw, ud.getPassword())) {
-			throw new RuntimeException("비밀번호가 틀립니다.");
+			throw new BadCredentialsException("비밀번호가 틀립니다.");
 		}
 		
 		UsernamePasswordAuthenticationToken res = new UsernamePasswordAuthenticationToken(ud, pw, ud.getAuthorities());

@@ -35,7 +35,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 			out.print(new Gson().toJson(RVO.builder().msg("인가에 실패 하였습니다.").data(accessDeniedException.getMessage()).code(ApiCd.NOT_AUTH).build()));
 		} else {
 			//response.sendRedirect("/public/login");
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, accessDeniedException.getMessage());
+			//response.sendError(HttpServletResponse.SC_UNAUTHORIZED, accessDeniedException.getMessage());
+			response.sendRedirect("/public/denied");
 		}
 	}
 
