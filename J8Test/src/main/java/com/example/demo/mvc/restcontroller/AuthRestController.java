@@ -48,5 +48,14 @@ public class AuthRestController {
 				.data(authService.userJoin(joinDto))
 				.build();
 	}
+	
+	@PostMapping("/resign")
+	public RVO<Member> resign(){
+		return RVO.<Member>builder()
+				.msg("탈퇴에 성공하였습니다.")
+				.code(ApiCd.NORMAL)
+				.data(authService.resign())
+				.build();
+	}
 
 }

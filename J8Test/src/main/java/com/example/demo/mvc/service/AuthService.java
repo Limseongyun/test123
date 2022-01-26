@@ -2,6 +2,8 @@ package com.example.demo.mvc.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import com.example.demo.mvc.model.entity.MemberMoney;
 import com.example.demo.mvc.model.entity.QMember;
 import com.example.demo.mvc.repository.MemberLoginHstRepo;
 import com.example.demo.mvc.repository.MemberMoneyRepo;
+import com.example.demo.mvc.repository.MemberRepo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,7 @@ public class AuthService {
 	@Autowired private MemberMoneyRepo mmRepo;
 	@Autowired private EntityUtil eu;
 	@Autowired private MemberLoginHstRepo memLoginHstRepo;
+	@Autowired private MemberRepo memRepo;
 	
 	public String gettoken(String id, String pw, String ip) {
 		QMember qmem = QMember.member;
@@ -80,5 +84,23 @@ public class AuthService {
 		newMem.setMembCls(eu.getMemberTyCmm(Cd.MEMBER_TY_USER));
 		newMem.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
 		return mmRepo.save(newMem);
+	}
+	
+	public Member resign() {
+		Member auth = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		log.debug("auth: {}", auth);
+		QMember qmem = QMember.member;
+		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(String.valueOf(auth.getMembId()))).fetchOne();
+		if(mem == null) {
+			throw new RuntimeException("유저가 없습니다. 탈퇴하려면 로그인을 해주세요");
+		}
+		if(Cd.MEMBER_STTUS_RESIGN.equals(mem.getMembSttusCd().getCodeValue())) {
+			throw new RuntimeException("이미 탈퇴한 유저 입니다.");
+		}
+		if(Cd.MEMBER_TY_ADMIN.equals(mem.getMembCls().getCodeValue())) {
+			throw new RuntimeException("어드민은 탈퇴할수 없습니다.");
+		}
+		mem.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_RESIGN));
+		return memRepo.save(mem);
 	}
 }
