@@ -31,9 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.debug("[JwtAuthenticationFilter]{}, {}", request.getRequestURI(), request.getHeader("Authorization"));
-		for(Cookie c : request.getCookies()) {
-			log.debug("cookie: {}", c.getName());
-		}
+		
 		if(request.getRequestURI().startsWith("/api")) {
 			log.debug("jwt 인증 진행");
 			SecurityContextHolder.getContext().setAuthentication(null);

@@ -17,4 +17,14 @@
 		username, password 를 변경하시 마세요.
 	</form>
 </div>
+<img src="/files/img/pingu.jpg" width="100" height="100">
+<script>
+$(function(){
+	var searchParams = new URLSearchParams(location.search);
+	if(searchParams.has('error')){
+		alert('id, pw를 제대로 입력해주세요')
+		history.replaceState({}, null, location.pathname);
+	}
+})
+</script>
 </layout:layout>

@@ -6,7 +6,9 @@
 <layout:layout titleName="인덱스">
 	인덱스 
 	<button onclick="location.href='/logout'" class="btn btn-primary">로그아웃</button>
-	<hr>
+	<hr/>
+	<button onclick="ajaxtest1()" class="btn btn-warning">AJAX테스트</button>
+	<hr/>
 	<br/>
 	<br/>
 	<br/>
@@ -14,6 +16,15 @@
 		${i.merchantNm }
 		<br/>
 	</c:forEach>
-
+<script>
+function ajaxtest1(){
+	var url = '/ajaxTest'
+	$.get(url,function(data){
+		cmm.isJSON(data)
+		console.log(data)
+		
+	})
+}
+</script>
 
 </layout:layout>

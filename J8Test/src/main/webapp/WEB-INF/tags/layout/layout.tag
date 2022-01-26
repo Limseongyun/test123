@@ -13,6 +13,7 @@
 	<script src="/webjars/jquery/3.6.0/dist/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/webjars/jquery-ui/jquery-ui.min.js"></script>
+	<script src="/files/js/cmm.js"></script>
 </head>
 <body>
 	
