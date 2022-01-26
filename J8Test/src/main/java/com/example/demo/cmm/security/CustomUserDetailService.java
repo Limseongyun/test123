@@ -1,4 +1,4 @@
-package com.example.demo.config.security;
+package com.example.demo.cmm.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

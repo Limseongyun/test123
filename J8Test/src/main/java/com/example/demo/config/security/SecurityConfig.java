@@ -16,6 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.demo.cmm.filters.JwtAuthenticationFilter;
+import com.example.demo.cmm.security.AuthEntryPoint_DENIED;
+import com.example.demo.cmm.security.CustomAccessDeniedHandler;
+import com.example.demo.cmm.security.CustomAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -42,46 +45,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//api
 		http.cors().and().csrf().disable()
-			//.sessionManagement()
-			//	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			//.and()
 				.exceptionHandling()
-				.authenticationEntryPoint(aep)
-			.and()
-				.exceptionHandling()
-				.accessDeniedHandler(cad)
-			.and()
-			.authorizeHttpRequests()
-				.antMatchers("/api/*/samp/**", "/api/*/auth/**").permitAll()
-				.antMatchers("/api/*/admin/**").hasAuthority("ROLE_ADMIN")
-				.antMatchers("/api/*/seller/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER")
-				.antMatchers("/api/*/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER")
-				//.anyRequest().authenticated()
-			.and()
-			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-			.formLogin().disable();
-				
-		//public
-		http.cors().and().csrf().disable()
-			.authorizeRequests()
-				.antMatchers("/public/**", "/api/**").permitAll()
-				.antMatchers("/**").authenticated()
-			.and()
-			.formLogin()
-				.loginPage("/public/login")
-				.loginProcessingUrl("/login")
-				//.failureUrl("/public/login")
-				//.permitAll()
-				.defaultSuccessUrl("/index")
-			.and()
-			.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/public/login")
-				.invalidateHttpSession(true);
-//				.and()
-//			.exceptionHandling()
-//				.accessDeniedPage("/public/denied");
+					.authenticationEntryPoint(aep)
+					.accessDeniedHandler(cad)
+				.and()
+				.authorizeHttpRequests()
+					.antMatchers("/api/*/samp/**", "/api/*/auth/**").permitAll()
+					.antMatchers("/api/*/admin/**").hasAuthority("ROLE_ADMIN")
+					.antMatchers("/api/*/seller/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER")
+					.antMatchers("/api/*/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER")
+					.antMatchers("/public/**", "/api/**").permitAll()
+					.anyRequest().authenticated()
+				.and()
+				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+				.formLogin()
+					.loginPage("/public/login")
+					.loginProcessingUrl("/login")
+					.defaultSuccessUrl("/index")
+				.and()
+				.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutSuccessUrl("/public/login")
+					.invalidateHttpSession(true);
 	}
 }

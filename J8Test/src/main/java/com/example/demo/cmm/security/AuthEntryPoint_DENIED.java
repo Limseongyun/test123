@@ -1,4 +1,4 @@
-package com.example.demo.config.security;
+package com.example.demo.cmm.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -34,8 +35,7 @@ public class AuthEntryPoint_DENIED implements AuthenticationEntryPoint{
 			response.setContentType("application/json; charset=UTF-8");
 			out.print(new Gson().toJson(RVO.builder().msg("인증에 실패 하였습니다.").data(authException.getMessage()).code(ApiCd.NOT_AUTH).build()));
 		} else {
-			//response.sendRedirect("/public/login");
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+			response.sendRedirect("/public/login");
 		}
 	}
 }

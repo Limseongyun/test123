@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.cmm.code.Cd;
+import com.example.demo.cmm.security.JwtTokenProvider;
 import com.example.demo.cmm.utils.EntityUtil;
-import com.example.demo.cmm.utils.JwtTokenProvider;
 import com.example.demo.mvc.model.dto.JoinDto;
 import com.example.demo.mvc.model.entity.Member;
 import com.example.demo.mvc.model.entity.MemberLoginHst;

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +17,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.demo.cmm.utils.JwtTokenProvider;
-import com.example.demo.config.security.CustomUserDetailService;
+import com.example.demo.cmm.security.CustomUserDetailService;
+import com.example.demo.cmm.security.JwtTokenProvider;
 
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +32,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.debug("[JwtAuthenticationFilter]{}, {}", request.getRequestURI(), request.getHeader("Authorization"));
-		
+		for(Cookie c : request.getCookies()) {
+			log.debug("cookie: {}", c.getName());
+		}
 		if(request.getRequestURI().startsWith("/api")) {
 			log.debug("jwt 인증 진행");
+			SecurityContextHolder.getContext().setAuthentication(null);
+			request.setAttribute("isApi", true);
 			request.getSession().invalidate();
 			jwtAuthStart(request);
-			request.setAttribute("isApi", true);
 		}else {
 			request.setAttribute("isApi", false);
 		}
