@@ -1,5 +1,7 @@
 package com.example.demo.mvc.service;
 
+import java.util.List;
+
 import org.checkerframework.checker.units.qual.mm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +12,11 @@ import com.example.demo.cmm.utils.EntityUtil;
 import com.example.demo.mvc.model.dto.ChargeDto;
 import com.example.demo.mvc.model.entity.Member;
 import com.example.demo.mvc.model.entity.MemberMoney;
+import com.example.demo.mvc.model.entity.Merchant;
 import com.example.demo.mvc.model.entity.MoneyTransferHst;
 import com.example.demo.mvc.model.entity.QMember;
 import com.example.demo.mvc.model.entity.QMemberMoney;
+import com.example.demo.mvc.model.entity.QMerchant;
 import com.example.demo.mvc.repository.MemberMoneyRepo;
 import com.example.demo.mvc.repository.MoneyTransferHstRepo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -45,4 +49,13 @@ public class UserService {
 	}
 	//구매
 	
+	
+	
+	/*
+	 * ↑restcontroller, ↓controller
+	 */
+	public List<Merchant> selectAllMerchant(){
+		QMerchant qmerchant = QMerchant.merchant;
+		return qf.selectFrom(qmerchant).fetch();
+	}
 }
