@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,7 +54,10 @@ public class WebConfig implements WebMvcConfigurer{
 	
 	@Bean
 	public ModelMapper myModelMapper() {
-		return new ModelMapper();
+		ModelMapper mm = new ModelMapper();
+		mm.getConfiguration().setSkipNullEnabled(true);
+		mm.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		return mm;
 	}
 	
 	@Bean
