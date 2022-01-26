@@ -61,14 +61,20 @@ public class AuthService {
 		
 		Member memChk = qf.selectFrom(qmem).where(qmem.membId.eq(joinDto.getMembId())).fetchOne();
 		if(memChk != null) {
-			throw new RuntimeException("이미 존재하는 아이디 입니다.");
+			if(Cd.MEMBER_STTUS_OK.equals(memChk.getMembSttusCd().getCodeValue())) {
+				throw new RuntimeException("이미 존재하는 아이디 입니다.");
+			} else {
+				memChk.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
+				return (MemberMoney) memRepo.save(memChk);
+			}
+		} else {
+			MemberMoney newMem = mm.map(joinDto, MemberMoney.class);
+			newMem.setMoneyBlce(0L);
+			newMem.setMembPw(pe.encode(newMem.getPassword()));
+			newMem.setMembCls(eu.getMemberTyCmm(Cd.MEMBER_TY_SELLER));
+			newMem.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
+			return mmRepo.save(newMem);
 		}
-		MemberMoney newMem = mm.map(joinDto, MemberMoney.class);
-		newMem.setMoneyBlce(0L);
-		newMem.setMembPw(pe.encode(newMem.getPassword()));
-		newMem.setMembCls(eu.getMemberTyCmm(Cd.MEMBER_TY_SELLER));
-		newMem.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
-		return mmRepo.save(newMem);
 	}
 	
 	public MemberMoney userJoin(JoinDto joinDto) {
@@ -76,14 +82,20 @@ public class AuthService {
 		
 		Member memChk = qf.selectFrom(qmem).where(qmem.membId.eq(joinDto.getMembId())).fetchOne();
 		if(memChk != null) {
-			throw new RuntimeException("이미 존재하는 아이디 입니다.");
+			if(Cd.MEMBER_STTUS_OK.equals(memChk.getMembSttusCd().getCodeValue())) {
+				throw new RuntimeException("이미 존재하는 아이디 입니다.");
+			} else {
+				memChk.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
+				return (MemberMoney) memRepo.save(memChk);
+			}
+		} else {
+			MemberMoney newMem = mm.map(joinDto, MemberMoney.class);
+			newMem.setMoneyBlce(0L);
+			newMem.setMembPw(pe.encode(newMem.getPassword()));
+			newMem.setMembCls(eu.getMemberTyCmm(Cd.MEMBER_TY_USER));
+			newMem.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
+			return mmRepo.save(newMem);
 		}
-		MemberMoney newMem = mm.map(joinDto, MemberMoney.class);
-		newMem.setMoneyBlce(0L);
-		newMem.setMembPw(pe.encode(newMem.getPassword()));
-		newMem.setMembCls(eu.getMemberTyCmm(Cd.MEMBER_TY_USER));
-		newMem.setMembSttusCd(eu.getMemberSttusCmm(Cd.MEMBER_STTUS_OK));
-		return mmRepo.save(newMem);
 	}
 	
 	public Member resign() {
