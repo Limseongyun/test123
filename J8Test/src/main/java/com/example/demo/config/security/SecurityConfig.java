@@ -3,6 +3,8 @@ package com.example.demo.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired private AuthEntryPoint_DENIED aep;
 	@Autowired private JwtAuthenticationFilter jwtFilter;
 	@Autowired private CustomAccessDeniedHandler cad;
+	@Autowired private CustomAuthenticationProvider cap;
 
 	@Bean
 	public PasswordEncoder pe() {
@@ -33,12 +36,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
 	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(cap);
+	}
+	
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//api
 		http.cors().and().csrf().disable()
-			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
+			//.sessionManagement()
+			//	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			//.and()
 				.exceptionHandling()
 				.authenticationEntryPoint(aep)
 			.and()
@@ -50,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/api/*/admin/**").hasAuthority("ROLE_ADMIN")
 				.antMatchers("/api/*/seller/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER")
 				.antMatchers("/api/*/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER")
-				.anyRequest().authenticated()
+				//.anyRequest().authenticated()
 			.and()
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin().disable();
@@ -63,7 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 			.formLogin()
 				.loginPage("/public/login")
+				.loginProcessingUrl("/login")
 				.permitAll()
+				.defaultSuccessUrl("/index")
 			.and()
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

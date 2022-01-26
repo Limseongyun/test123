@@ -8,5 +8,17 @@
 </head>
 <body>
 로그인!
+<div>
+	<form action="/login" method="post">
+		<label for="id">ID</label>
+		<input id="id" name="username">
+		<label for="pw">PW</label>
+		<input id="pw" name="password">
+		
+		<button type="submit">login</button>
+		<hr>
+		username, password 를 변경하시 마세요.
+	</form>
+</div>
 </body>
 </html>

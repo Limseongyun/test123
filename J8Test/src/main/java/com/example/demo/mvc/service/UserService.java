@@ -28,7 +28,7 @@ public class UserService {
 	@Autowired private MoneyTransferHstRepo moneyTrfHstRepo;
 	@Autowired private EntityUtil eu;
 	
-
+	//충전
 	public MemberMoney charge(Member member, ChargeDto chargeDto) {
 		QMember qmem = QMember.member;
 		MemberMoney mem = (MemberMoney) qf.selectFrom(qmem).where(qmem.memberSn.eq(member.getMemberSn())).fetchOne();
@@ -43,4 +43,6 @@ public class UserService {
 		mem.setMoneyBlce(mem.getMoneyBlce() + chargeDto.getChargeAmt());
 		return mmRepo.save(mem);
 	}
+	//구매
+	
 }
