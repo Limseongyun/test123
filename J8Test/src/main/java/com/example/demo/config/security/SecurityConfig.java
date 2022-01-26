@@ -19,6 +19,8 @@ import com.example.demo.cmm.filters.JwtAuthenticationFilter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired private AuthEntryPoint_DENIED aep;
+	@Autowired private JwtAuthenticationFilter jwtFilter;
+	@Autowired private CustomAccessDeniedHandler cad;
 
 	@Bean
 	public PasswordEncoder pe() {
@@ -40,11 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.exceptionHandling()
 				.authenticationEntryPoint(aep)
 			.and()
+				.exceptionHandling()
+				.accessDeniedHandler(cad)
+			.and()
 			.authorizeHttpRequests()
 				.antMatchers("/api/*/samp/**", "/api/*/auth/**").permitAll()
-				.antMatchers("/api/**").authenticated()
+				.antMatchers("/api/*/admin/**").hasAuthority("ROLE_ADMIN")
+				.antMatchers("/api/*/seller/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER")
+				.antMatchers("/api/*/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER")
+				.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin().disable();
 				
 		//public
@@ -60,9 +68,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/public/login")
-				.invalidateHttpSession(true)
-				.and()
-			.exceptionHandling()
-				.accessDeniedPage("/public/denied");
+				.invalidateHttpSession(true);
+//				.and()
+//			.exceptionHandling()
+//				.accessDeniedPage("/public/denied");
 	}
 }

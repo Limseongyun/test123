@@ -3,6 +3,7 @@ package com.example.demo.config.security;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,8 @@ public class AuthEntryPoint_DENIED implements AuthenticationEntryPoint{
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		log.debug("[JwtAuthenticationEntryPoint]! err: {}, {}", authException.getMessage(), request.getRequestURI());
+		Object exType = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+		log.debug("[JwtAuthenticationEntryPoint]! err: {}, {}, {}", authException.getMessage(), request.getRequestURI(), exType);
 		if(request.getRequestURI().startsWith("/api")) {
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");

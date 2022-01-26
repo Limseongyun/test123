@@ -24,6 +24,10 @@ public class AuthService {
 		QMember qmem = QMember.member;
 		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(id)).fetchOne();
 		
+		if(mem == null) {
+			throw new RuntimeException("존재하지 않는 유저 입니다.");
+		}
+		
 		if(! pe.matches(pw, mem.getPassword())) {
 			throw new RuntimeException("비밀번호가 틀립니다.");
 		}

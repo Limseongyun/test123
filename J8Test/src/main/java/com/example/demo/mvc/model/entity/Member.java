@@ -64,7 +64,7 @@ public class Member extends Base implements UserDetails{
 	private CmmnCodeDetail membSttusCd;
 	
 	//회원ID
-	@Column(name = "memb_id", length = 12, nullable = false)
+	@Column(name = "memb_id", length = 12, nullable = false, unique = true)
 	private String membId;
 	
 	//회원PW
@@ -116,8 +116,8 @@ public class Member extends Base implements UserDetails{
 	}
 
 	@Override
-	public String getUsername() {//sn
-		return String.valueOf(this.memberSn);
+	public String getUsername() {//ID? SN? 
+		return String.valueOf(this.membId);
 	}
 
 	@Override
