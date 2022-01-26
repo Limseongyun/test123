@@ -22,10 +22,11 @@ public class CustomUserDetailService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Member member = memRepo.findByMembId(username);
+		if(member == null) throw new UsernameNotFoundException("유저가 존재하지 않습니다.");
+		
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority(member.getMembCls().getCodeValue()));
 		member.setAuthorities(authorities);
 		return member;
 	}
-
 }
