@@ -22,9 +22,7 @@ function ajaxtest1(){
 	$.get(url,function(data){
 		cmm.isJSON(data)
 		console.log(data)
-		
 	})
 }
 </script>
-
 </layout:layout>

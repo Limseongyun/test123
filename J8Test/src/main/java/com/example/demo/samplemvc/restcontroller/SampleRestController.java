@@ -33,4 +33,13 @@ public class SampleRestController {
 		return RVO.<List<SampleParent>>builder().msg("parents!!").code(ApiCd.NORMAL).data(ss.getParents()).build();
 	}
 	
+	@GetMapping("parents2")
+	public RVO<List<SampleParent>> getParents2(){
+		return RVO.<List<SampleParent>>builder().msg("parents!!").code(ApiCd.NORMAL).data(ss.jpqlParent()).build();
+	}
+	
+	@PostMapping("parent2")
+	public RVO<SampleParent> addParents2(){
+		return RVO.<SampleParent>builder().msg("parents!!").code(ApiCd.NORMAL).data(ss.emInsertParent()).build();
+	}
 }

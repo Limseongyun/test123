@@ -44,7 +44,7 @@ public class SampleParent extends Base{
 	@Column(name = "parent_nm")
 	private String parentNm;
 	
-	@OneToMany(mappedBy = "childSn", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "childSn")
 	@JsonManagedReference
 	private List<SampleChild> childs = new ArrayList<>();
 }

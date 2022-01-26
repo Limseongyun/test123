@@ -3,6 +3,7 @@ package com.example.demo.samplemvc.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,6 +44,6 @@ public class SampleChild extends Base{
 	private String childNm;
 	
 	@JoinColumn(name = "parent_sn")
-	@ManyToOne@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)@JsonBackReference
 	private SampleParent parent;
 }
