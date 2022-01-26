@@ -2,7 +2,6 @@ package com.example.demo.mvc.service;
 
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.mm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import com.example.demo.mvc.model.entity.MemberMoney;
 import com.example.demo.mvc.model.entity.Merchant;
 import com.example.demo.mvc.model.entity.MoneyTransferHst;
 import com.example.demo.mvc.model.entity.QMember;
-import com.example.demo.mvc.model.entity.QMemberMoney;
 import com.example.demo.mvc.model.entity.QMerchant;
 import com.example.demo.mvc.repository.MemberMoneyRepo;
 import com.example.demo.mvc.repository.MoneyTransferHstRepo;

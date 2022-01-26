@@ -11,7 +11,6 @@ import com.example.demo.cmm.utils.EntityUtil;
 import com.example.demo.mvc.model.entity.CmmnCodeDetail;
 import com.example.demo.mvc.model.entity.Member;
 import com.example.demo.mvc.model.entity.MemberMoney;
-import com.example.demo.mvc.model.entity.MemberMoney;
 import com.example.demo.mvc.repository.CmmnCodeDetailRepo;
 import com.example.demo.mvc.repository.MemberMoneyRepo;
 import com.example.demo.mvc.repository.MemberRepo;
