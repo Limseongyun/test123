@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.cmm.CommonMap;
 import com.example.demo.samplemvc.entity.QSampleChild;
 import com.example.demo.samplemvc.entity.QSampleParent;
 import com.example.demo.samplemvc.entity.SampleParent;
+import com.example.demo.samplemvc.mapper.SampleMapper;
 import com.example.demo.samplemvc.repository.SampleParentRepo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -18,6 +20,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class SampleService {
 	@Autowired private JPAQueryFactory qf;
 	@Autowired private SampleParentRepo spRepo;
+	@Autowired private SampleMapper samplemapper;
 
 	public List<SampleParent> getParents() {
 		QSampleParent qsp = QSampleParent.sampleParent;
@@ -34,5 +37,9 @@ public class SampleService {
 		sp.setParentNm("haha" + UUID.randomUUID().toString().substring(0, 10));
 		SampleParent newsp = spRepo.save(sp);
 		return newsp;
+	}
+	
+	public List<CommonMap> batisParent(CommonMap param){
+		return samplemapper.selectParents(param);
 	}
 }
