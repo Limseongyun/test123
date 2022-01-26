@@ -14,9 +14,9 @@ public class AuditConfig implements AuditorAware<Long>{
 	@Override
 	public Optional<Long> getCurrentAuditor() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Member mem = (Member) auth.getPrincipal();
 		if(auth == null || ! auth.isAuthenticated()) return null;
 		if("anonymousUser".equals(auth.getPrincipal())) return null;
+		Member mem = (Member) auth.getPrincipal();
 		String sn = String.valueOf(mem.getMemberSn());
 		return Optional.of(Long.parseLong(sn));
 	}

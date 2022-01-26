@@ -87,10 +87,14 @@ public class AuthService {
 	}
 	
 	public Member resign() {
-		Member auth = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		log.debug("auth: {}", auth);
+		if("anonymousUser".equals(auth.getPrincipal())) {
+			throw new RuntimeException("유저가 없습니다. 탈퇴하려면 로그인을 해주세요");
+		}
+		
 		QMember qmem = QMember.member;
-		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(String.valueOf(auth.getMembId()))).fetchOne();
+		Member mem = qf.selectFrom(qmem).where(qmem.membId.eq(String.valueOf(((Member)auth.getPrincipal()).getMembId()))).fetchOne();
 		if(mem == null) {
 			throw new RuntimeException("유저가 없습니다. 탈퇴하려면 로그인을 해주세요");
 		}
