@@ -11,4 +11,6 @@ public class SellerRestController {
 	public String test() {
 		return "testSeller";
 	}
+	//가맹점등록
+	//상품등록
 }

@@ -47,7 +47,7 @@ import lombok.Setter;
 @Entity
 
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "DTYPE")
+//@DiscriminatorColumn(name = "DTYPE")
 public class Member extends Base implements UserDetails{
 	private static final long serialVersionUID = 1L;
 

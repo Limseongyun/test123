@@ -1,0 +1,46 @@
+package com.example.demo.mvc.service;
+
+import org.checkerframework.checker.units.qual.mm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.cmm.code.Cd;
+import com.example.demo.cmm.utils.EntityUtil;
+import com.example.demo.mvc.model.dto.ChargeDto;
+import com.example.demo.mvc.model.entity.Member;
+import com.example.demo.mvc.model.entity.MemberMoney;
+import com.example.demo.mvc.model.entity.MoneyTransferHst;
+import com.example.demo.mvc.model.entity.QMember;
+import com.example.demo.mvc.model.entity.QMemberMoney;
+import com.example.demo.mvc.repository.MemberMoneyRepo;
+import com.example.demo.mvc.repository.MoneyTransferHstRepo;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Transactional
+@Slf4j
+public class UserService {
+	@Autowired private JPAQueryFactory qf;
+	@Autowired private MemberMoneyRepo mmRepo;
+	@Autowired private MoneyTransferHstRepo moneyTrfHstRepo;
+	@Autowired private EntityUtil eu;
+	
+
+	public MemberMoney charge(Member member, ChargeDto chargeDto) {
+		QMember qmem = QMember.member;
+		MemberMoney mem = (MemberMoney) qf.selectFrom(qmem).where(qmem.memberSn.eq(member.getMemberSn())).fetchOne();
+		MoneyTransferHst mtf = new MoneyTransferHst();
+		//충전
+		mtf.setTransferTyCd(eu.getMoneyTransferCmm(Cd.MONEY_TSF_TY_CHARGE));
+		//충전방식은 dto에서 온대로
+		mtf.setPayMeanCd(eu.getMoneyMeanCmm(chargeDto.getChargeMean()));
+		mtf.setMemberSn(mem);
+		mtf.setTransferAmt(chargeDto.getChargeAmt());
+		moneyTrfHstRepo.save(mtf);
+		mem.setMoneyBlce(mem.getMoneyBlce() + chargeDto.getChargeAmt());
+		return mmRepo.save(mem);
+	}
+}
