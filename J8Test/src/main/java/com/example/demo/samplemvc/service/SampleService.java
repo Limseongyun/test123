@@ -54,6 +54,11 @@ public class SampleService {
 		return parents;
 	}
 	
+	public SampleParent jpqlParanetOne(Long parentSn) {
+		String query = "SELECT sp FROM SampleParent sp WHERE sp.parentSn = :parentSn";
+		return em.createQuery(query, SampleParent.class).setParameter("parentSn", parentSn).getSingleResult();
+	}
+	
 	public SampleParent emInsertParent() {
 		SampleParent sp = new SampleParent();
 		sp.setParentNm("가나");

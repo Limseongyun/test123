@@ -71,6 +71,8 @@ log.debug("INIT START");
 			admin.setMoneyBlce(99999999L);
 			mmRepo.save(admin);
 			log.debug("admin {}", admin);
+		} else {
+			log.debug("ADMIN 존재, INIT SKIP");
 		}
 	}
 	private CmmnCodeDetail genCmmnCode(String codeId, String codeVal, String codeValNm) {
