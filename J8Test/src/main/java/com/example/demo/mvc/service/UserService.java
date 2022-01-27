@@ -54,4 +54,16 @@ public class UserService {
 		QMerchant qmerchant = QMerchant.merchant;
 		return qf.selectFrom(qmerchant).fetch();
 	}
+	
+	// sample /QueryDsl사용법 검색
+	// sample
+	public List<Member> allMember() {
+		QMember qmem = QMember.member;
+		return qf.select(qmem)
+				.from(qmem)
+				.where(qmem.useYn.eq("Y"))
+				.offset(0) //pageing 리미트*페이지수
+				.limit(5) //pageing 
+				.fetch(); // fetch -> data를 가져오라는 뜻!
+	}
 }

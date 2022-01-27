@@ -1,5 +1,7 @@
 package com.example.demo.mvc.restcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,4 +43,13 @@ public class UserRestController {
 	//사용기록 조회
 	//충전
 	
+	//sample
+	@GetMapping("/members")
+	public RVO<List<Member>> allMember() {
+		return RVO.<List<Member>>builder()
+				.msg("테스트) 모든 멤버입니다.")
+				.code(ApiCd.NORMAL)
+				.data(userService.allMember())
+				.build();
+	}
 }
