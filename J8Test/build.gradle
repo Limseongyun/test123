@@ -16,7 +16,7 @@ apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 group = 'com.example.demo'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
