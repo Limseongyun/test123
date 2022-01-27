@@ -54,4 +54,16 @@ public class UserService {
 		QMerchant qmerchant = QMerchant.merchant;
 		return qf.selectFrom(qmerchant).fetch();
 	}
+	
+	
+	//sample
+	public List<Member> allMember(){
+		QMember qmember = QMember.member;
+		return qf.select(qmember)
+			.from(qmember)
+			.where(qmember.useYn.eq("Y"))
+			.offset(0)//paging
+			.limit(5)//paging
+			.fetch();
+	}
 }
