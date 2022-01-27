@@ -62,6 +62,7 @@ public class Merchant extends Base{
 	@Column(name = "detail_addr", length = 150)
 	private String detailAddr;
 	
+	// jpa의 버그 merchant에서 goods로 갈 수 있다. 무한반복 참조가 일어날 수 있다. json형식으로 바꿀때 무한참조가 되지 않도록. 어디까지 json 컨버팅을 해줄 것인가.
 	@JsonManagedReference
 	@OneToMany(mappedBy = "goodsSn", cascade = CascadeType.ALL)
 	private List<Goods> goodslist = new ArrayList<Goods>();

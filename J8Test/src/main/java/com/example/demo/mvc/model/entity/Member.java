@@ -27,18 +27,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+// lombok 어노테이션
+// 모든 생성자
 @AllArgsConstructor
+//기본 생성자
 @NoArgsConstructor
 @Getter
 @Setter
+// 이름을 커스터마이징 
 @Table(name = "tb_member", indexes = @Index(columnList = "memb_sn"))
+
+//member seq 설정
 @SequenceGenerator(name = "member_seq", allocationSize = 1, initialValue = 1, sequenceName = "member_seq")
 @DynamicInsert
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 
+// member 와 member money 조인하는 것
 @Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn(name = "DTYPE")
 public class Member extends Base implements UserDetails{

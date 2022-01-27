@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtTokenProvider {
 	// TODO: @Value
 	private final static String JWT_SECRET = "password";
-	private final static int JWT_EXPIRATION_MS = 1000 * 60 * 10;
+	private final static int JWT_EXPIRATION_MS = 1000 * 60 * 100 ;
 	
 	public static String generateToken(String id, String pw, String authority) {
 		Map<String, Object> claims = new HashMap<>();

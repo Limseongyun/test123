@@ -54,4 +54,15 @@ public class UserService {
 		QMerchant qmerchant = QMerchant.merchant;
 		return qf.selectFrom(qmerchant).fetch();
 	}
+	
+	//sample
+	public List<Member> allMember() {
+		QMember qmem = QMember.member;
+		return qf.select(qmem)
+		  .from(qmem)
+		  .where(qmem.useYn.eq("Y"))
+		  .offset(0) //paging 언제부터 시작할건지
+ 		  .limit(5) //paging 몇번째까지 끊을건지
+		  .fetch();
+	}
 }
