@@ -36,7 +36,7 @@ public class Test1 {
 		SampleParent sp3 = new SampleParent();
 		sp3.setParentNm("::;;;");
 		spRepo.save(sp3);
-		
+		System.out.println("이거는테스트용");
 		QSampleParent qsp = QSampleParent.sampleParent;
 		List<SampleParent> sp4 = qf.selectFrom(qsp).where(qsp.parentNm.contains("-")).fetch();
 		for(SampleParent e : sp4) {
