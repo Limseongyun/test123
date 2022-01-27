@@ -54,4 +54,15 @@ public class UserService {
 		QMerchant qmerchant = QMerchant.merchant;
 		return qf.selectFrom(qmerchant).fetch();
 	}
+	
+	//Sample 자세한건은 GOogle QueryDsl 사용법을 검색하세요
+	public List<Member> allMember(){
+		QMember qmem = QMember.member;
+		return qf.select(qmem)
+			.from(qmem)
+			.where(qmem.useYn.eq("Y"))
+			.offset(0) // paging
+			.limit(5) //paging
+			.fetch();
+	}
 }
