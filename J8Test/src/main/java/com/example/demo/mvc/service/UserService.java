@@ -54,4 +54,16 @@ public class UserService {
 		QMerchant qmerchant = QMerchant.merchant;
 		return qf.selectFrom(qmerchant).fetch();
 	}
+	
+	//sample
+	public List<Member> allMember(){
+		QMember qmem = QMember.member;
+		return qf.select(qmem)
+		.from(qmem)
+		.where(qmem.useYn.eq("Y"))
+		.offset(0) //pageing. offset 값은 초기위치값. offset 값=> 현재 페이지 * limit?
+		.limit(5)//pageing.  limit값은 고정
+		.fetch(); //fetch -> data를 가져오라는 뜻!
+		
+	}
 }
